@@ -1,0 +1,4 @@
+#!/bin/sh
+if [ -e  "${HOME}/.local/state/nix/profile/etc/profile.d/nix.sh" ]; then
+    . "${HOME}/.local/state/nix/profile/etc/profile.d/nix.sh";
+fi

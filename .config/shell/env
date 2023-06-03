@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# xdg specification
+export XDG_CACHE_HOME="${HOME}/.cache"
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_STATE_HOME="${HOME}/.local/state"
+export XDG_PATH_HOME="${HOME}/.local/bin"
+
+# PATH
+export PATH="${PATH}:${XDG_PATH_HOME}:${HOME}/.config/shell/scripts"
+# ccache
+export PATH="${PATH}:/usr/lib/ccache/bin"
+# ruby+gem
+export PATH="${XDG_DATA_HOME}/gem/ruby/3.0.0/bin${PATH:+:${PATH}}"
+# go
+export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
+# java
+export JAVA_HOME="/usr/lib/jvm/default/release"
+
+## QT
+export QT_STYLE_OVERRIDE=kvantum
+# WGET
+export WGETRC="${HOME}/.config/wget/wgetrc"
+
+
+
+# app defaults
+export TERMINAL=foot
+export EDITOR=nvim
+export BROWSER="flatpak run io.gitlab.librewolf-community"
+export PAGER=less
+export VISUAL=$EDITOR
+export GPG_TTY=$(tty)

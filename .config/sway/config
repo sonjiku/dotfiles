@@ -1,0 +1,9 @@
+# Sway config
+#output * bg ~/.cache/wp fill
+output * bg $(cat ~/.cache/wal/wal) fill
+
+
+
+# include files
+include ~/.config/sway/config.d/*
+include ~/.config/sway/keybindings/*

@@ -1,0 +1,63 @@
+#!/bin/bash
+
+gitBranch() {
+	export gitbranch="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
+}
+
+####################
+#      COLORS      #
+####################
+# Setab sets bg and setaf fg
+## BACKGROUND
+BCDBLK="\[$(tput setab 0)\]"
+BCDRED="\[$(tput setab 1)\]"
+BCDGRN="\[$(tput setab 2)\]"
+BCDYLW="\[$(tput setab 3)\]"
+BCDBLU="\[$(tput setab 4)\]"
+BCDMAG="\[$(tput setab 5)\]"
+BCDCYA="\[$(tput setab 6)\]"
+BCDWHT="\[$(tput setab 7)\]"
+BCLBLK="\[$(tput setab 0)\]\[$(tput blink)\]"
+BCLRED="\[$(tput setab 1)\]\[$(tput blink)\]"
+BCLGRN="\[$(tput setab 2)\]\[$(tput blink)\]"
+BCLYLW="\[$(tput setab 3)\]\[$(tput blink)\]"
+BCLBLU="\[$(tput setab 4)\]\[$(tput blink)\]"
+BCLMAG="\[$(tput setab 5)\]\[$(tput blink)\]"
+BCLCYA="\[$(tput setab 6)\]\[$(tput blink)\]"
+BCLWHT="\[$(tput setab 7)\]\[$(tput blink)\]"
+## FOREGROUND
+CDBLK="\[$(tput setaf 0)\]"
+CDRED="\[$(tput setaf 1)\]"
+CDGRN="\[$(tput setaf 2)\]"
+CDYLW="\[$(tput setaf 3)\]"
+CDBLU="\[$(tput setaf 4)\]"
+CDMAG="\[$(tput setaf 5)\]"
+CDCYA="\[$(tput setaf 6)\]"
+CDWHT="\[$(tput setaf 7)\]"
+CLBLK="\[$(tput setaf 0)\]\[$(tput bold)\]"
+CLRED="\[$(tput setaf 1)\]\[$(tput bold)\]"
+CLGRN="\[$(tput setaf 2)\]\[$(tput bold)\]"
+CLYLW="\[$(tput setaf 3)\]\[$(tput bold)\]"
+CLBLU="\[$(tput setaf 4)\]\[$(tput bold)\]"
+CLMAG="\[$(tput setaf 5)\]\[$(tput bold)\]"
+CLCYA="\[$(tput setaf 6)\]\[$(tput bold)\]"
+CLWHT="\[$(tput setaf 7)\]\[$(tput bold)\]"
+CRST="\[$(tput sgr0)\]"
+
+#######################
+#    BASH  OPTIONS    #
+#######################
+# Vi Mode
+set -o vi
+# Autocding by only tiping the dir name
+shopt -s autocd
+complete -cf doas
+# History
+export HISTFILE="$XDG_STATE_HOME/bash_history"
+export HISTCONTROL=ignoredups
+export HISTFILESIZE=1000
+## PROMPTS
+PS1="\n${CRST}${CLBLU}\w${CDWHT}(${CDYLW}$(gitBranch)${CDWHT})${CLCYA}#${CRST} "
+PS2="\n${CRST}${BCLMAG}\l${CRST}${CLCYA}#${CRST} "
+PS3="\n${CRST}${BCLMAG}\l${CRST}${CDRED}\w${CRST} ${CLCYA}#${CRST} "
+PS4="\n\t${CRST}${BCLMAG}\l${CRST} ${CDRED}\w${CRST} ${CLCYA}#${CRST} "

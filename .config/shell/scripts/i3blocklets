@@ -1,0 +1,118 @@
+#!/bin/env sh
+cpu () {
+    echo "CPU"
+}
+
+bat () {
+    
+    labelcolor=$(xrdb -query | grep '\*color13:' | awk '{print $NF}')
+    batlevel=$(cat /sys/class/power_supply/BAT0/capacity)
+    label="<span foreground=\"${labelcolor}\">"
+
+    if [ "${batlevel}" -le "5" ]; then
+        color=$(xrdb -query | grep '\*color9:' | awk '{print $NF}')
+    else
+        color=$(xrdb -query | grep '\*color11:' | awk '{print $NF}')
+    fi
+
+    if [ "${batlevel}" -le "10" ]; then
+        label="${label} "
+    elif [ "${batlevel}" -gt "10" ] && [ "${batlevel}" -le "20" ]; then
+        label="${label} "
+    elif [ "${batlevel}" -gt "20" ] && [ "${batlevel}" -le "30" ]; then
+        label="${label} "
+    elif [ "${batlevel}" -gt "30" ] && [ "${batlevel}" -le "40" ]; then
+        label="${label} "
+    elif [ "${batlevel}" -gt "40" ] && [ "${batlevel}" -le "50" ]; then
+        label="${label} "
+    elif [ "${batlevel}" -gt "50" ] && [ "${batlevel}" -le "60" ]; then
+        label="${label} "
+    elif [ "${batlevel}" -gt "60" ] && [ "${batlevel}" -le "70" ]; then
+        label="${label} "
+    elif [ "${batlevel}" -gt "70" ] && [ "${batlevel}" -le "80" ]; then
+        label="${label} "
+    elif [ "${batlevel}" -gt "80" ] && [ "${batlevel}" -le "90" ]; then
+        label="${label} "
+    else
+        label="${label} "
+    fi
+    echo "${label}</span><span foreground=\"${color}\">${batlevel}%</span>"
+
+}
+
+vol () {
+    
+    labelcolor=$(xrdb -query | grep '\*color14:' | awk '{print $NF}')
+    vol=$(pulsemixer --get-volume | awk '{print $1}')
+    label="<span foreground=\"${labelcolor}\">"
+
+    if [ "${vol}" -le "25" ]; then
+        label="${label}婢 "
+    elif [ "${vol}" -gt "50" ] && [ "${vol}" -le "20" ]; then
+        label="${label}奄 "
+    elif [ "${vol}" -gt "75" ] && [ "${vol}" -le "30" ]; then
+        label="${label}奔 "
+    else
+        label="${label}墳 "
+    fi
+    if [ "$(pulsemixer --get-mute)" -eq "1" ]; then
+        color=$(xrdb -query | grep '\*color9:' | awk '{print $NF}')
+        echo "<span foreground=\"${labelcolor}\">ﱝ </span><span foreground=\"${color}\">mute</span>"
+    else
+        color=$(xrdb -query | grep '\*color11:' | awk '{print $NF}')
+        echo "${label}</span><span foreground=\"${color}\">${vol}%</span>"
+    fi
+
+    read -r button
+    while [ ! -z "$button" ]; do
+        if [ "$button" -eq "1" ]; then
+            amixer -q sset Master toggle
+        elif [ "$button" -eq "2" ]; then
+            echo "Nonesense"
+        elif [ "$button" -eq "3" ]; then
+            i3-msg -q exec pavucontrol
+        elif [ "$button" -eq "4" ]; then
+            amixer -q sset Master 2%+
+        elif [ "$button" -eq "5" ]; then
+            amixer -q sset Master 2%-
+        fi
+
+        vol=$(pulsemixer --get-volume | awk '{print $1}')
+        label="<span foreground=\"${labelcolor}\">"
+
+        if [ "$(pulsemixer --get-mute)" -eq "1" ]; then
+            color=$(xrdb -query | grep '\*color9:' | awk '{print $NF}')
+            label="${label}ﱝ "
+        elif [ "${vol}" -le "25" ]; then
+            label="${label}婢 "
+        elif [ "${vol}" -gt "50" ] && [ "${vol}" -le "20" ]; then
+            label="${label}奄 "
+        elif [ "${vol}" -gt "75" ] && [ "${vol}" -le "30" ]; then
+            label="${label}奔 "
+        else
+            label="${label}墳 "
+        fi
+        if [ "$(pulsemixer --get-mute)" -eq "1" ]; then
+            color=$(xrdb -query | grep '\*color9:' | awk '{print $NF}')
+            echo "<span foreground=\"${labelcolor}\">ﱝ </span><span foreground=\"${color}\">mute</span>"
+        else
+            color=$(xrdb -query | grep '\*color11:' | awk '{print $NF}')
+            echo "${label}</span><span foreground=\"${color}\">${vol}%</span>"
+        fi
+        read -r button
+    done
+
+
+}
+
+case $1 in
+    vol)
+        vol;
+        exit;;
+    bat)
+        bat;
+        exit;;
+    cpu)
+        cpu;
+        exit;;
+esac

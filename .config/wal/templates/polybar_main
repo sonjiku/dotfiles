@@ -1,0 +1,167 @@
+[bar/main]
+width = 100%
+height = 25
+enable-ipc = true
+align = center
+fixed-center = true
+font-0 = NotoSans:weight=Bold:size=12;0
+    font-1 = Symbols Nerd Font:size=14;0
+foreground = {color15}
+background = #33{color0.strip}
+line-size = 0
+    line-color = {color8}
+padding = 1
+module-margin = 2
+    modules-left = i3
+    modules-center = xwindow
+    modules-right = rootfs homefs memory cpu backlight battery date
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+pin-workspaces = true
+strip-wsnumbers = true
+label-mode-padding = 2
+    label-mode-foreground = {color3}
+    label-mode-background = #bb{color0.strip}
+label-focused = %name%
+    label-focused-foreground = {color15}
+    label-focused-background = #bb{color0.strip}
+    label-focused-underline = #bb{color0.strip}
+    label-focused-padding = 2
+label-unfocused = %name%
+    label-unfocused-foreground = {color8}
+    label-unfocused-background = #bb{color0.strip}
+    label-unfocused-underline = #bb{color0.strip}
+    label-unfocused-padding = 2
+label-visible = %name%
+    label-visible-background = #bb{color0.strip}
+    label-visible-underline = {color0}
+    label-visible-padding = 2
+label-urgent = %name%
+    label-urgent-foreground = {color1}
+    label-urgent-background = #bb{color0.strip}
+    label-urgent-underline = #bb{color0.strip}
+    label-urgent-padding = 2
+
+[module/xwindow]
+type = internal/xwindow
+label = %title%
+label-foreground = {color3}
+label-padding = 2
+label-maxlen = 50
+label-ellipsis = true
+
+
+[module/memory]
+type = internal/memory
+interval = 5
+format-suffix = "  "
+format-underline = {color2}
+format-suffix-foreground = {color2}
+format-foreground = {color3}
+label = "%gb_used%/%gb_total%"
+
+[module/cpu]
+type = internal/cpu
+interval = 1
+format-suffix = "  ﬙"
+format-underline = #bb{color4.strip}
+format-suffix-foreground = {color4}
+format-foreground = {color3}
+label = "%percentage:2%%"
+
+
+[module/backlight]
+type = internal/backlight
+card = amdgpu_bl0
+enable-scroll = true
+format = <label><ramp>
+label = %percentage%%
+label-foreground = {color3}
+ramp-0 = "  "
+ramp-1 = "  "
+ramp-2 = "  "
+ramp-3 = "  "
+ramp-4 = "  "
+ramp-5 = "  "
+ramp-6 = "  "
+ramp-foreground = {color5}
+
+
+[module/battery]
+type = internal/battery
+full-at = 99
+battery = BAT0
+left-click = exec i3-sensible-terminal -e sudo powertop
+adapter = AC
+poll-interval = 5
+format-charging = <label-charging> <animation-charging>
+label-charging = %percentage%%
+format-discharging = <label-discharging> <ramp-capacity>
+label-discharging = %percentage%%
+format-full = <label-full> <ramp-capacity>
+label-full = %percentage%%
+ramp-capacity-0 = "  "
+ramp-capacity-1 = "  "
+ramp-capacity-2 = "  "
+ramp-capacity-3 = "  "
+ramp-capacity-4 = "  "
+ramp-capacity-5 = "  "
+ramp-capacity-6 = "  "
+ramp-capacity-7 = "  "
+ramp-capacity-8 = "  "
+ramp-capacity-9 = "  "
+ramp-capacity-10 = "  "
+animation-charging-0 = "  "
+animation-charging-1 = "  "
+animation-charging-2 = "  "
+animation-charging-3 = "  "
+animation-charging-4 = "  "
+animation-charging-framerate = 750
+format-charging-underline = #bb{color6.strip}
+format-discharging-underline = #bb{color6.strip}
+format-full-underline = #bb{color6.strip}
+ramp-capacity-foreground = {color6}
+animation-charging-foreground = {color6}
+label-charging-foreground = {color3}
+label-discharging-foreground = {color3}
+label-full-foreground = {color3}
+
+[module/date]
+type = custom/script
+format-suffix = "  "
+exec = ~/.config/polybar/scripts/calendar.sh
+interval = 5
+click-left = ~/.config/polybar/scripts/calendar.sh --popup &
+format-underline = #bb{color7.strip}
+format-suffix-foreground = {color7}
+format-foreground = {color3}
+
+[module/rootfs]
+type = internal/fs
+mount-0 = /
+interval = 300
+format-mounted = <label-mounted>
+format-unmounted = <label-unmounted>
+label-mounted = "%{{F{color11}}}%percentage_used%%%{{F-}}  %{{F{color9}}}ﲂ%{{F-}} "
+    format-mounted-foreground = {color3}
+    format-mounted-underline = {color1}
+label-unmounted = "%{{F{color11}}}Not Mounted%{{F-}}  %{{F{color9}}}ﲂ%{{F-}} "
+    format-unmounted-foreground = {color3}
+    format-unmounted-underline = {color1}
+
+[module/homefs]
+type = internal/fs
+mount-0 = /home
+interval = 120
+format-mounted = <label-mounted>
+    label-mounted = "%{{F{color11}}}%percentage_used%%%{{F-}}  %{{F{color9}}}%{{F-}} "
+    format-mounted-foreground = {color6}
+    format-mounted-underline = {color1}
+format-unmounted = <label-unmounted>
+    label-unmounted = "%{{F{color11}}}Not Mounted%{{F-}}  %{{F{color9}}}%{{F-}} "
+    format-unmounted-foreground = {color3}
+    format-unmounted-underline = {color1}

@@ -1,0 +1,14 @@
+[core]
+	editor = nvim
+	excludesFile = /home/sonji/.config/git/ignore
+[user]
+	name = sonjiku
+	email = 57968409+sonjiku@users.noreply.github.com
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[init]
+	defaultBranch = main

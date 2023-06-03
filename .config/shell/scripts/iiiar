@@ -1,0 +1,25 @@
+#!/bin/env sh
+
+feh --no-fehbg --bg-scale "$(cat $HOME/.cache/wal/wal)"
+
+# Wait till proccesses dead
+while pgrep -x "polybar" >/dev/null; do 
+    killall -q polybar
+done
+
+# Launch polybar
+polybar -l warning main & 
+polybar -l warning music & 
+
+while pgrep -x "nm-applet" >/dev/null || pgrep -x "dunst" >/dev/null; do
+    killall -q nm-applet
+    killall -q dunst
+done
+
+until pgrep -x "polybar" >/dev/null; do 
+    sleep 1
+done
+
+# Launch NetworkManager
+nm-applet &
+dunst &

@@ -1,0 +1,10 @@
+#!/bin/sh
+if command -v bemenu >/dev/null 2>&1 ; then
+    . "$XDG_CONFIG_HOME/shell/defaults/bemenu-colors"
+    export BEMENU_OPTS="$BEMENU_OPTS\
+    --fn 'JetBrains Mono 14'\
+    -c\
+    -l 10\
+    -W 0.4\
+    -P > --scrollbar autohide"
+fi

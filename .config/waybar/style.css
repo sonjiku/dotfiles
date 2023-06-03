@@ -1,0 +1,101 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMonoNL Nerd Font";
+    font-size: 10pt;
+    min-height: 0;
+}
+
+window#waybar {
+    background: #18100c;
+    opacity: 0.9;
+    color: #f3ffff;
+}
+
+#window {
+    font-weight: bold;
+    font-family: "JetBrainsMonoNL Nerd Font";
+}
+/*
+#workspaces {
+    padding: 0 5px;
+}
+*/
+
+#workspaces button {
+    padding: 0 5px;
+    background: transparent;
+    color: #f3ffff;
+    border-top: 2px solid transparent;
+}
+
+#workspaces button.focused {
+    color: #a4270d;
+    border-top: 2px solid #a4270d;
+}
+
+#mode {
+    background: #a4270d;
+    border-bottom: 3px solid #f3ffff;
+}
+
+#clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #tray, #mode {
+    padding: 0 10pt;
+    margin: 0 0pt;
+}
+
+#clock {
+    font-weight: bold;
+}
+
+#battery {
+}
+
+#battery icon {
+    color: #ff6429;
+}
+
+#battery.charging {
+}
+
+@keyframes blink {
+    to {
+        background-color: #f3ffff;
+        color: #18100c;
+    }
+}
+
+#battery.warning:not(.charging) {
+    color: #f3ffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#cpu {
+}
+
+#memory {
+}
+
+#network {
+}
+
+#network.disconnected {
+    background: #ff6429;
+}
+
+#pulseaudio {
+}
+
+#pulseaudio.muted {
+}
+
+#custom-spotify {
+    color: rgb(102, 220, 105);
+}
+
+#tray {
+}

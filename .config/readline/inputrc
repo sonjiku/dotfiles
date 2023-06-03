@@ -1,0 +1,55 @@
+set meta-flag on
+set input-meta on
+set convert-meta off
+set output-meta on
+
+# for linux console and RH/Debian xterm
+"\C-r": overwrite-mode
+"\C-x": delete-char
+"\C-b": beginning-of-line
+"\C-e": end-of-line
+"\eh": "\e[D"
+"\el": "\e[C"
+"\C-h": backward-word
+"\C-l": forward-word
+"\C-j": menu-complete
+"\C-k": menu-complete-backward
+"\C-p": history-search-backward
+"\C-n": history-search-forward
+"\C-d": kill-line
+"\e\C-l": "\C-e | less\C-m"
+"\e\C-y": "\C-ayes | \C-m"
+"\es": "\C-a su -c '\C-e'\C-m"
+"\e\C-b": "\C-e > /dev/null 2>&1 &\C-m"
+
+# Vi mode
+set editing-mode vi
+set show-mode-in-prompt On
+
+$if term=linux
+	set vi-ins-mode-string \1\e[1;45m\2
+	set vi-cmd-mode-string \1\e[5;42m\2
+$else
+	set vi-ins-mode-string \1\e[1;35m\2
+	set vi-cmd-mode-string \1\e[5;32m\2
+$endif
+
+# Color files by types
+set colored-stats On
+# Append char to indicate type
+set visible-stats On
+# Mark symlinked directories
+set mark-symlinked-directories On
+# Case insesitive completion
+set completion-ignore-case On
+# Max number of characters of common prefix for completions
+set completion-prefix-display-length 3
+# Color the common prefix
+set colored-completion-prefix On
+# Color the common prefix in menu-complete
+set menu-complete-display-prefix On
+# List completions immediately
+set show-all-if-ambiguous On 
+set show-all-if-unmodified On
+# Hide Control Characters
+set echo-control-characters off

@@ -1,0 +1,5 @@
+# Window is             border    bg       text     indi     childborder
+client.focused          {cursor}aa {cursor}aa {foreground}ff {color4}aa {cursor}aa
+client.focused_inactive {color4}aa {color4}aa {foreground}ff {cursor}aa {color4}aa
+client.unfocused        {background}aa {background}aa {foreground}ff {foreground}aa {background}aa
+client.urgent           {color9}aa {color9}aa {background}ff {color14}aa {color9}aa

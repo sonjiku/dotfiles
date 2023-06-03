@@ -1,0 +1,58 @@
+#!/bin/sh
+
+# XDG COMPLIANCE
+    alias xbindkeysX="xbindkeys -f $XDG_CONFIG_HOME/xbindkeys/config"
+    alias yarnX="yarn --use-yarnrc $XDG_CONFIG_HOME/yarn/config"
+    alias codeX="code-oss --extensions-dir $XDG_DATA_HOME/vscode"
+    alias dosboX="dosbox -conf $XDG_CONFIG_HOME/dosbox/dosbox.conf"
+    alias gpgX="gpg2 --homedir "$XDG_DATA_HOME"/gnupg"
+
+# XDG FIXES
+## cargo
+if command -v cargo >/dev/null 2>&1 ; then
+    export CARGO_HOME="${XDG_DATA_HOME}/cargo"
+fi
+## gnupg
+if command -v gpg >/dev/null 2>&1 ; then
+    export GNUPGHOME="${XDG_DATA_HOME}/gnupg"
+fi
+## gradle
+if command -v gradle >/dev/null 2>&1 ; then
+    export GRADLE_USER_HOME="${XDG_DATA_HOME}/gradle"
+fi
+## gtk
+export GTK_RC_FILES="${XDG_CONFIG_HOME}/gtk-1.0/gtkrc"
+export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/gtkrc"
+## go
+if command -v go >/dev/null 2>&1 ; then
+    export GOPATH="${XDG_DATA_HOME}/go"
+fi
+## Java
+if command -v java >/dev/null 2>&1 ; then
+    export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME}/java"
+fi
+## node
+export NODE_REPL_HISTORY="${XDG_DATA_HOME}/node_repl_history"
+## npm
+if command -v npm >/dev/null 2>&1 ; then
+    export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
+fi
+## nvm
+if command -v nvm >/dev/null 2>&1 ; then
+    export NVM_DIR="${XDG_DATA_HOME}/nvm"
+fi
+## parallel
+export PARALLEL_HOME="${XDG_CONFIG_HOME}/parallel"
+## pylint
+export PYLINTHOME="${XDG_CACHE_HOME}/pylint"
+## readline
+export INPUTRC="${XDG_CONFIG_HOME}/readline/inputrc"
+## vim
+if command -v vim >/dev/null 2>&1 ; then
+    export GVIMINIT='let $MYGVIMRC="${XDG_CONFIG_HOME}/vim/gvimrc" | source $MYGVIMRC'
+    export VIMINIT='let $MYVIMRC="${XDG_CONFIG_HOME}/vim/vimrc" | source $MYVIMRC'
+fi
+## wget
+if command -v wget >/dev/null 2>&1 ; then
+    export WGETRC="${XDG_CONFIG_HOME}/wgetrc"
+fi

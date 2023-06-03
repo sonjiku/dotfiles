@@ -1,0 +1,71 @@
+[bar/music]
+width = 100%
+height = 20
+enable-ipc = true
+bottom = true
+    fixed-center = true
+font-0 = NotoSans:weight=Bold:size=12;0
+    font-1 = Symbols Nerd Font:size=14;0
+border-size = 0
+    border-color = {color0} 
+    foreground = {color15}
+    background = #bb{color0.strip}
+padding = 1
+tray-position = right
+    tray-padding = 2
+    tray-background = #33{color0.strip}
+module-margin = 5
+    modules-center = volume mpd cava
+
+[module/volume]
+type = internal/pulseaudio
+format-volume = <ramp-volume> <label-volume>
+use-ui-max = false
+ramp-volume-0 = 婢 
+ramp-volume-1 = 奄
+ramp-volume-2 = 奔
+ramp-volume-3 = 墳 
+ramp-volume-foreground = {color4}
+interval = 5
+click-right = pavucontrol
+label-volume = %percentage%
+    label-volume-foreground = {color3}
+label-muted = ﱝ
+    label-muted-foreground = {color1}
+
+[module/mpd]
+type = internal/mpd
+format-online = <label-song> <icon-prev> <toggle> <icon-next>
+format-offline = mpd is offline
+icon-prev = 玲
+    icon-prev-foreground = {color3}
+icon-stop = 栗
+    icon-stop-foreground = {color1}
+icon-play = 契
+    icon-play-foreground = {color1}
+icon-pause = 
+    icon-pause-foreground = {color1}
+icon-next = 怜
+    icon-next-foreground = {color3}
+label-song = "%{{F{color12}}}%title%%{{F-}} %{{F{color11}}}by%{{F-}} %{{F{color4}}}%artist%%{{F-}}"
+label-song-foreground = {color15}
+    label-song-maxlen = 100
+    label-song-ellipsis = true
+bar-progress-width = 45
+    bar-progress-indicator = "  "
+    bar-progress-indicator-foreground = {color11}
+    bar-progress-indicator-background = {color11}
+    bar-progress-fill = "  " 
+    bar-progress-fill-foreground = {color3}
+    bar-progress-fill-background = {color3}
+    bar-progress-empty = "  " 
+    bar-progress-empty-foreground = {color0}
+    bar-progress-empty-background = {color8}
+
+[module/cava]
+type = custom/script
+tail = true
+exec = $HOME/.config/polybar/scripts/cava.sh
+format = <label>
+format-font = 5
+label = %output%

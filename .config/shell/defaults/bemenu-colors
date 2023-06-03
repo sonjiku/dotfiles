@@ -1,0 +1,15 @@
+#!/bin/sh
+
+export BEMENU_OPTS="--tb '#6272a4'\
+       --tb '#a4270dcc'\
+       --tf '#f3ffffff'\
+       --fb '#18100ccc'\
+       --ff '#f3ffffff'\
+       --nb '#18100ccc'\
+       --nf '#f3ffffff'\
+       --hb '#a4270dcc'\
+       --hf '#f3ffffff'\
+       --sb '#701b09cc'\
+       --sf '#f3ffffff'\
+       --scb '#18100ccc'\
+       --scf '#a4270dff'"

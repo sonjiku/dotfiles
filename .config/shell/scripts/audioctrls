@@ -1,0 +1,109 @@
+#!/bin/env sh
+
+iDIR="$HOME/.config/mako/icons"
+
+# Check which audio backend is used: Pipewire, pulseaudio or just Alsa
+if pgrep -x wireplumber >/dev/null ; then
+    aube=0
+elif pgrep -x pulseaudio >/dev/null ; then
+    aube=1
+else
+    aube=2
+fi
+
+
+# Get Volume
+get_vol () {
+    case "$aube" in
+        0)
+            vol="$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2}' | sed -r 's`(([?:[1-9]+)[.]|(0)[.](0?))`\2`')"
+            ;;
+        1)
+            vol="$(pactl get-sink-volume @DEFAULT_SINK@ | head -n 1| awk '{print $5}' | sed 's/%//')"
+            ;;
+        2)
+            vol="$(amixer sget Master | awk -F'[][]' '/Left:/ {print substr($2, 1, length($2)-1)}')"
+            ;;
+    esac
+    echo "$vol"
+}
+
+# Get icons
+get_icon () {
+	current="$(get_vol)"
+	if [ "$current" -eq 0 ]; then
+		echo "$iDIR/volume-mute.png"
+	elif [ "$current" -le 30 ]; then
+		echo "$iDIR/volume-low.png"
+	elif [ "$current" -le 60 ]; then
+		echo "$iDIR/volume-mid.png"
+	elif [ "$current" -le 100 ]; then
+		echo "$iDIR/volume-high.png"
+	fi
+}
+
+if [ "$#" -eq 1 ]; then
+    case "$1" in
+        "-d")
+            case "$aube" in
+                0)
+                    wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-
+                    ;;
+                1)
+                    pactl set-sink-volume @DEFAULT_SINK@ -2%
+                    ;;
+                2)
+                    amixer set Master 2%-
+                    ;;
+            esac
+            notify-send -h string:x-canonical-private-synchronous:sys-vol -h "int:value:$(get_vol)" -u low -i "$(get_icon)" "Audio" "Volume: $(get_vol)%"
+            ;;
+        "-i")
+            get_vol
+            if  [ "$vol" -eq 100 ]; then
+                notsend -b "Volume: Full"
+            else
+                case "$aube" in
+                    0)
+                        wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 2%+
+                        ;;
+                    1)
+                        if [ "$vol" -lt 98 ]; then
+                            pactl set-sink-volume @DEFAULT_SINK@ +2%
+                        else
+                            pactl set-sink-volume @DEFAULT_SINK@ 100%
+                        fi
+                        ;;
+                    2)
+                        amixer set Master 2%+
+                        ;;
+                esac
+                notify-send -h string:x-canonical-private-synchronous:sys-vol -h "int:value:$(get_vol)" -u low -i "$(get_icon)" "Audio" "Volume: $vol%"
+            fi
+            ;;
+        "-t")
+            case "$aube" in
+                0)
+                    wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+                    if wpctl get-volume @DEFAULT_SINK@ | grep -q 'MUTED'; then
+                        mutestat="Mute: On"
+                    else
+                        mutestat="Mute: Off"
+                    fi
+                    ;;
+                1)
+                    pactl set-sink-mute @DEFAULT_SINK@ toggle
+                    mutestat="$(pactl get-sink-mute @DEFAULT_SINK@)"
+                    ;;
+                2)
+                    amixer set Master toggle
+                    ;;
+            esac
+            notify-send -h string:x-canonical-private-synchronous:sys-vol -u low -i "$(get_icon)" "Audio" "$mutestat"
+            ;;
+        * )
+            echo "Not a valid option. Choose either -d, -i or -t"
+    esac
+else
+    echo "Too many or not enough arguments"
+fi

@@ -1,0 +1,36 @@
+#!/bin/env sh
+
+
+# Check if charging
+acpower=$(cat /sys/class/power_supply/AC/online)
+batlevel=$(cat /sys/class/power_supply/BAT0/capacity)
+uid="$(id -u ${LOGNAME})"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus"
+
+if [ "$acpower" -eq "0" ]; then
+    echo "Device is at $batlevel%"
+    if [ "$batlevel" -le "5" ]; then
+        echo "Asking user for shutdown permission"
+        action=$(dunstify -a "Battery" -u normal -i battery-empty-symbolic -r "847420" --action="default,Reply" "Battery lower than 5%. Shutdown?")
+        case $action in
+            default)
+                poweroff;;
+        esac
+    else
+        if [ "$batlevel" -gt "5" ] && [ "$batlevel" -le "20" ]; then
+            icon="battery-caution-symbolic"
+        elif [ "$batlevel" -gt "20" ] && [ "$batlevel" -le "40" ]; then
+            icon="battery-low-symbolic"
+        elif [ "$batlevel" -gt "40" ] && [ "$batlevel" -le "80" ]; then
+            icon="battery-good-symbolic"
+        elif [ "$batlevel" -gt "80" ]; then
+            icon="battery-full-symbolic"
+        fi
+        dunstify -a "Battery" -u normal -i "$icon" -r "847420" --action="default,Reply" "At $batlevel%"
+    fi
+elif [ "$acpower" -eq "1" ]; then
+    if [ "$batlevel" -gt "80" ]; then
+        echo "Device is at $batlevel%"
+        dunstify -a "Battery" -u normal -i battery-full-charging-symbolic -r "847420" --action="default,Reply" "At $batlevel%. Please unplug from charger"
+    fi
+fi

@@ -1,0 +1,45 @@
+#!/bin/env sh
+
+if command -v wlsunset >/dev/null 2>&1 ; then
+
+    # Get icons
+    get_icon () {
+        echo "volume-high.png"
+    }
+
+    wlsun () {
+        if  pgrep -x wlsunset >/dev/null ; then
+            killall -q wlsunset
+            while pgrep -x wlsunset >/dev/null; do sleep 1; done
+        fi
+        wlsunset -l 37.9 -L 23.7 -g 1.25 >/dev/null 2>&1&
+    }
+    twlsun () {
+            if  pgrep -x wlsunset >/dev/null ; then
+                killall -q wlsunset
+                tstat="Off"
+            else
+                wlsund
+                tstat="On"
+            fi
+            notify-send -h string:x-canonical-private-synchronous:sys-nightmode -u low -i "$(get_icon)" "Night Mode" "$tstat"
+    }
+
+
+    if [ "$#" -eq 1 ]; then
+        case "$1" in
+            "-s")
+                wlsun
+                ;;
+            "-t")
+                twlsun
+                ;;
+            * )
+                echo "Error: Not a valid option. Choose either -s or -t!"
+        esac
+    else
+        wlsun
+    fi
+else
+    echo 'Error: wlsunset is not in $PATH. Check if it is installed.'
+fi

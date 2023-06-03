@@ -1,0 +1,92 @@
+{
+    "layer": "bot", // Waybar at top layer
+    "position": "top", // Waybar at the bottom of your screen
+    "height": 24, // Waybar height
+    // Choose the order of the modules
+    "modules-left": ["sway/workspaces", "sway/mode", "custom/spotify"],
+    "modules-center": ["sway/window"],
+    "modules-right": ["cpu", "memory", "battery", "tray", "backlight", "pulseaudio", "clock"],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": false,
+        "format": "{name} ",
+    },
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "custom/spotify": {
+        "format": " {}",
+        "max-length": 40,
+        "interval": 05, // Remove this if your script is endless and write in loop
+        "exec": "$HOME/.config/waybar/modules/mediaplayer.sh 2> /dev/null",
+        "on-click": "playerctl play-pause"
+    },
+
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "cpu": {
+        "format": "{usage}% "
+    },
+    "memory": {
+        "format": "{}% "
+    },
+    "battery": {
+        "bat": "BAT0",
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "network": {
+        // "interface": "wlp2s0", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-disconnected": "Disconnected ⚠",
+        "on-click": "nm-connection-editor",
+        "on-click-right": "nm-applet"
+    },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{percent}% {icon}",
+        "format-icons": ["󰃚 ", "󰃛 ", "󰃜 ", "󰃝 ", "󰃞 ", "󰃟 ", "󰃠 "],
+        "on-scroll-up": "brightnessctl set 2%+",
+        "on-scroll-down": "brightnessctl set 2%-",
+        "on-click": "wlsund -t",
+    },
+    "pulseaudio": {
+        //"scroll-step": 1,
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% {icon}󰂯",
+        "format-muted": "-- 󰝟 ",
+        "format-icons": {
+            "headphones": "󰋋 ",
+            "handsfree": "󰋌 ",
+            "headset": "󰋎 ",
+            "phone": "󰏲 ",
+            "portable": "󰏲 ",
+            "car": "󰄋 ",
+            "default": ["󰕿 ", " ", " "]
+        },
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "pavucontrol"
+    },
+    "clock": {
+        "format-alt": "{:%Y-%m-%d}"
+    },
+}

@@ -1,0 +1,6 @@
+#!/bin/env sh
+xkb-switch -s `xkb-switch -l | grep "us"`
+scrot "${XDG_STATE_HOME}/i3lock.png"
+convert "${XDG_STATE_HOME}/i3lock.png" -blur 5x4 "${XDG_STATE_HOME}/i3lock.png"
+i3lock -i "${XDG_STATE_HOME}/i3lock.png"
+rm "${XDG_STATE_HOME}/i3lock.png"
